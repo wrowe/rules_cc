@@ -297,12 +297,12 @@ def _impl(ctx):
                     actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
                     flag_groups = [
                         flag_group(
-                            flags = [
-                                "/wd4117",
+                            flags = (["/wd4117"] if ctx.attr.compiler == "msvc-cl" else []) +
+                                (["-Wno-builtin-macro-redefined"] if ctx.attr.compiler == "clang-cl" else []) + [
                                 "-D__DATE__=\"redacted\"",
                                 "-D__TIMESTAMP__=\"redacted\"",
                                 "-D__TIME__=\"redacted\"",
-                            ] + (["-Wno-builtin-macro-redefined"] if ctx.attr.compiler == "clang-cl" else []),
+                            ],
                         ),
                     ],
                 ),
